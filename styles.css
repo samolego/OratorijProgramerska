@@ -467,8 +467,8 @@ body {
     }
 
     .left-panel {
-        height: 45vh;
-        min-height: 350px;
+        height: 60vh;
+        min-height: 450px;
     }
 
     .game-actions {
@@ -480,7 +480,7 @@ body {
     }
 
     .iframe-container {
-        height: 50vh;
+        height: 35vh;
         min-height: 300px;
     }
 
