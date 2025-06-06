@@ -89,7 +89,7 @@ function closeIframe() {
   iframeContainer.classList.remove("show");
   iframe.src = "";
 
-  updateUrlParams(null, null);
+  updateUrlParams(null, "");
 }
 
 function openFullscreen() {

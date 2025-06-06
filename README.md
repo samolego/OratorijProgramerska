@@ -88,7 +88,7 @@ const GAMES_DATA = {
 
 ## 📝 Licenca
 
-Ta projekt je licenciran z licenco [MIT](./LICENSE.md).
+Ta projekt je licenciran z licenco [MIT](./LICENSE).
 Igre imajo lahko svoje oz. druge licence.
 
 ## 🤝 Prispevanje
