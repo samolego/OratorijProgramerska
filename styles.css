@@ -1,0 +1,351 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family:
+        -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+
+.navbar {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+}
+
+.navbar h1 {
+    color: #333;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+    display: flex;
+    gap: 2rem;
+    min-height: calc(100vh - 200px);
+}
+
+.left-panel {
+    flex: 0 0 25%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.right-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.controls {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 2rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.year-selector {
+    margin-bottom: 1rem;
+}
+
+.year-selector label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.year-selector select {
+    padding: 0.75rem;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    font-size: 1rem;
+    background: white;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.year-selector select:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.games-container {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    min-height: 300px;
+}
+
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.game-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    transition:
+        transform 0.2s,
+        box-shadow 0.2s;
+}
+
+.game-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.game-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 1rem;
+    text-transform: capitalize;
+}
+
+.game-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-primary {
+    background: #667eea;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #5a67d8;
+}
+
+.btn-secondary {
+    background: #48bb78;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #38a169;
+}
+
+.btn-tertiary {
+    background: #ed8936;
+    color: white;
+}
+
+.btn-tertiary:hover {
+    background: #dd6b20;
+}
+
+.iframe-container {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    display: none;
+    height: calc(100vh - 250px);
+    min-height: 600px;
+}
+
+.iframe-container.show {
+    display: flex;
+    flex-direction: column;
+}
+
+.iframe-header {
+    background: #f7fafc;
+    padding: 1rem;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.iframe-title {
+    font-weight: 600;
+    color: #333;
+}
+
+.iframe-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.iframe-btn {
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.close-iframe {
+    background: #e53e3e;
+    color: white;
+}
+
+.close-iframe:hover {
+    background: #c53030;
+}
+
+.restart-iframe {
+    background: #007bff;
+    color: white;
+}
+
+.restart-iframe:hover {
+    background: #0056b3;
+}
+
+.fullscreen-iframe {
+    background: #28a745;
+    color: white;
+}
+
+.fullscreen-iframe:hover {
+    background: #1e7e34;
+}
+
+.fullscreen-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 10000;
+    display: none;
+    flex-direction: column;
+}
+
+.fullscreen-overlay.show {
+    display: flex;
+}
+
+.fullscreen-header {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.fullscreen-title {
+    color: white;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.fullscreen-controls {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.fullscreen-btn {
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.exit-fullscreen {
+    background: #e53e3e;
+    color: white;
+}
+
+.exit-fullscreen:hover {
+    background: #c53030;
+}
+
+.restart-fullscreen {
+    background: #007bff;
+    color: white;
+}
+
+.restart-fullscreen:hover {
+    background: #0056b3;
+}
+
+#fullscreenIframe {
+    flex: 1;
+    width: 100%;
+    border: none;
+}
+
+#gameIframe {
+    width: 100%;
+    flex: 1;
+    border: none;
+}
+
+.no-games {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    padding: 2rem;
+}
+
+@media (max-width: 1024px) {
+    .container {
+        flex-direction: column;
+        padding: 1rem;
+    }
+
+    .left-panel {
+        flex: none;
+    }
+
+    .iframe-container {
+        height: 70vh;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .game-actions {
+        flex-direction: column;
+    }
+
+    .btn {
+        text-align: center;
+    }
+
+    .iframe-container {
+        height: 60vh;
+    }
+}

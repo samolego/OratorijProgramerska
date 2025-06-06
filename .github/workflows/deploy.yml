@@ -1,0 +1,63 @@
+name: Build and Deploy Site
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'igre/**'
+      - 'index.html'
+      - 'build.sh'
+  pull_request:
+    branches: [ main, master ]
+    paths:
+      - 'igre/**'
+      - 'index.html'
+      - 'build.sh'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Make build script executable
+        run: chmod +x build.sh
+
+      - name: Generate static site
+        run: ./build.sh generate
+
+      - name: List generated files
+        run: |
+          echo "Generated files in dist/:"
+          find dist/ -type f -name "*.html" | head -20
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  deploy:
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

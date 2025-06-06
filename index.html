@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="sl">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Programerska delavnica oratorij - Igre</title>
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+    <body>
+        <nav class="navbar">
+            <h1>🎮 Oratorij Programerska - Zbirka iger</h1>
+        </nav>
+
+        <div class="container">
+            <div class="left-panel">
+                <div class="controls">
+                    <div class="year-selector">
+                        <label for="yearSelect">Izberi leto:</label>
+                        <select id="yearSelect">
+                            <option value="">Izberi leto...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="games-container">
+                    <div id="gamesGrid" class="games-grid">
+                        <div class="no-games">
+                            Izberi leto za ogled razpoložljivih iger
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-panel">
+                <div id="iframeContainer" class="iframe-container">
+                    <div class="iframe-header">
+                        <span id="iframeTitle" class="iframe-title"
+                            >Igranje igre</span
+                        >
+                        <div class="iframe-buttons">
+                            <button
+                                class="iframe-btn restart-iframe"
+                                onclick="restartIframe()"
+                            >
+                                🔄 Začni znova
+                            </button>
+                            <button
+                                class="iframe-btn fullscreen-iframe"
+                                onclick="openFullscreen()"
+                            >
+                                ⛶ Celozaslonsko
+                            </button>
+                            <button
+                                class="iframe-btn close-iframe"
+                                onclick="closeIframe()"
+                            >
+                                ✕ Zapri
+                            </button>
+                        </div>
+                    </div>
+                    <iframe id="gameIframe" src=""></iframe>
+                </div>
+            </div>
+        </div>
+
+        <div id="fullscreenOverlay" class="fullscreen-overlay">
+            <div class="fullscreen-header">
+                <span id="fullscreenTitle" class="fullscreen-title"
+                    >Igranje v celozaslonskem načinu</span
+                >
+                <div class="fullscreen-controls">
+                    <button
+                        class="fullscreen-btn restart-fullscreen"
+                        onclick="restartFullscreen()"
+                    >
+                        🔄 Začni znova
+                    </button>
+                    <button
+                        class="fullscreen-btn exit-fullscreen"
+                        onclick="closeFullscreen()"
+                    >
+                        ✕ Izhod iz celozaslonskega
+                    </button>
+                </div>
+            </div>
+            <iframe id="fullscreenIframe" src=""></iframe>
+        </div>
+
+        <script src="main.js"></script>
+    </body>
+</html>
