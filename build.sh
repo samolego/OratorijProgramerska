@@ -34,15 +34,16 @@ log_error() {
 }
 
 usage() {
-    echo "Usage: $0 [generate|run]"
+    echo "Usage: $0 [generate|run] [port]"
     echo ""
     echo "Modes:"
     echo "  generate  - Generate hydrated index.html in dist/ directory"
     echo "  run       - Start local development server with hydrated content"
     echo ""
     echo "Examples:"
-    echo "  $0 generate    # Build static site"
-    echo "  $0 run         # Start dev server on http://localhost:8080"
+    echo "  $0 generate        # Build static site"
+    echo "  $0 run             # Start dev server on http://localhost:8080"
+    echo "  $0 run 3000        # Start dev server on http://localhost:3000"
 }
 
 scan_games() {
@@ -246,30 +247,48 @@ run_dev_server() {
 
     # Check for available HTTP server
     local server_cmd=""
-    local port=8080
+    local port=${1:-8080}
 
-    if command -v python3 &> /dev/null; then
+    if command -v npx &> /dev/null && npx http-server --help &> /dev/null; then
+        server_cmd="npx http-server -p $port -c-1 --cors --silent"
+        log_success "Using npm http-server (best for development - no caching, CORS enabled)"
+    elif command -v python3 &> /dev/null; then
         server_cmd="python3 -m http.server $port"
+        log_info "Using Python 3 http.server"
+        log_warn "Tip: Install npm http-server for better development experience: npm install -g http-server"
     elif command -v python &> /dev/null; then
         server_cmd="python -m SimpleHTTPServer $port"
+        log_info "Using Python 2 SimpleHTTPServer"
+        log_warn "Tip: Install npm http-server for better development experience: npm install -g http-server"
     elif command -v php &> /dev/null; then
         server_cmd="php -S localhost:$port"
+        log_info "Using PHP built-in server"
+        log_warn "Tip: Install npm http-server for better development experience: npm install -g http-server"
     elif command -v ruby &> /dev/null; then
         server_cmd="ruby -run -e httpd . -p $port"
+        log_info "Using Ruby built-in server"
+        log_warn "Tip: Install npm http-server for better development experience: npm install -g http-server"
     else
-        log_error "No suitable HTTP server found. Please install Python, PHP, or Ruby."
+        log_error "No suitable HTTP server found."
+        log_info "Install options:"
+        log_info "  • npm install -g http-server (recommended)"
+        log_info "  • Python 3: sudo apt install python3"
+        log_info "  • PHP: sudo apt install php"
+        log_info "  • Ruby: sudo apt install ruby"
         log_info "Alternatively, serve the files from: $OUTPUT_DIR"
         exit 1
     fi
-
-    log_info "Using server command: $server_cmd"
     log_success "Server starting at http://localhost:$port"
     log_info "Hot reload enabled - watching for file changes..."
     log_info "Press Ctrl+C to stop the server"
 
     cd "$OUTPUT_DIR"
-    # Preusmeri output v /dev/null za čisti izpis
-    $server_cmd > /dev/null 2>&1
+    # Preusmeri output v /dev/null za čisti izpis (razen za npm http-server ki ima --silent)
+    if [[ "$server_cmd" == *"npx http-server"* ]]; then
+        $server_cmd
+    else
+        $server_cmd > /dev/null 2>&1
+    fi
 }
 
 # Main script logic
@@ -283,7 +302,7 @@ case "$1" in
         generate_site
         ;;
     run)
-        run_dev_server
+        run_dev_server "$2"
         ;;
     -h|--help)
         usage
