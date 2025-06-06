@@ -2,17 +2,17 @@ name: Build and Deploy Site
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [main, master]
     paths:
-      - 'igre/**'
-      - 'index.html'
-      - 'build.sh'
+      - "igre/**"
+      - "index.html"
+      - "build.sh"
   pull_request:
-    branches: [ main, master ]
+    branches: [main, master]
     paths:
-      - 'igre/**'
-      - 'index.html'
-      - 'build.sh'
+      - "igre/**"
+      - "index.html"
+      - "build.sh"
   workflow_dispatch:
 
 permissions:
@@ -34,16 +34,13 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
-      - name: Make build script executable
-        run: chmod +x build.sh
-
       - name: Generate static site
         run: ./build.sh generate
 
       - name: List generated files
         run: |
           echo "Generated files in dist/:"
-          find dist/ -type f -name "*.html" | head -20
+          find dist/ -type f
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
