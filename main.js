@@ -40,10 +40,10 @@ function displayGames(year) {
                 📺 Igraj
             </button>
             <a href="${game.path}" download="${game.name}.html" class="btn btn-tertiary">
-                💾 Prenesi
+                💾 Shrani na računalnik
             </a>
-            <a href="${game.path}" target="_blank" class="btn btn-primary">
-                🚀 Odpri v novem zavihku
+            <a href="${game.path}" target="_blank">
+                Odpri v novem zavihku
             </a>
         </div>
     </div>
@@ -60,6 +60,8 @@ function playInIframe(gamePath, gameName) {
   iframe.src = gamePath;
   iframeTitle.textContent = `Igranje: ${gameName}`;
   iframeContainer.classList.add("show");
+
+  updateUrlParams(null, gameName);
 }
 
 function restartIframe() {
@@ -77,6 +79,8 @@ function closeIframe() {
 
   iframeContainer.classList.remove("show");
   iframe.src = "";
+
+  updateUrlParams(null, null);
 }
 
 function openFullscreen() {
@@ -117,12 +121,67 @@ document.addEventListener("keydown", function (event) {
   }
 });
 
+function updateUrlParams(year, game) {
+  const url = new URL(window.location);
+
+  if (year !== null) {
+    if (year) {
+      url.searchParams.set('year', year);
+    } else {
+      url.searchParams.delete('year');
+    }
+  }
+
+  if (game !== null) {
+    if (game) {
+      url.searchParams.set('game', game);
+    } else {
+      url.searchParams.delete('game');
+    }
+  }
+
+  window.history.replaceState({}, '', url);
+}
+
+function getUrlParams() {
+  const urlParams = new URLSearchParams(window.location.search);
+  return {
+    year: urlParams.get('year'),
+    game: urlParams.get('game')
+  };
+}
+
+function restoreFromUrl() {
+  const params = getUrlParams();
+
+  if (params.year && GAMES_DATA[params.year]) {
+    const yearSelect = document.getElementById("yearSelect");
+    yearSelect.value = params.year;
+    displayGames(params.year);
+
+    if (params.game) {
+      const games = GAMES_DATA[params.year];
+      const selectedGame = games.find(game => game.name === params.game);
+      if (selectedGame) {
+        setTimeout(() => {
+          playInIframe(selectedGame.path, selectedGame.name);
+        }, 100);
+      }
+    }
+  }
+}
+
 document.getElementById("yearSelect").addEventListener("change", function () {
   displayGames(this.value);
   closeIframe();
+  updateUrlParams(this.value, null);
 });
 
 populateYearSelector();
+// Restore URL state after populating data
+setTimeout(() => {
+  restoreFromUrl();
+}, 0);
 
 // Hot reload funkcionalnost samo za lokalni razvoj
 function initHotReload() {

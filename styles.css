@@ -38,6 +38,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    height: calc(100vh - 200px);
 }
 
 .right-panel {
@@ -85,13 +86,19 @@ body {
     padding: 2rem;
     border-radius: 12px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    min-height: 300px;
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 .games-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 1.5rem;
+    overflow-y: auto;
+    flex: 1;
+    padding-right: 0.5rem;
 }
 
 .game-card {
@@ -317,24 +324,53 @@ body {
     padding: 2rem;
 }
 
+/* Custom scrollbar styling */
+.games-grid::-webkit-scrollbar {
+    width: 8px;
+}
+
+.games-grid::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.games-grid::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+.games-grid::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
 @media (max-width: 1024px) {
     .container {
         flex-direction: column;
         padding: 1rem;
+        height: calc(100vh - 120px);
     }
 
     .left-panel {
         flex: none;
+        height: 50vh;
+        min-height: 400px;
     }
 
     .iframe-container {
-        height: 70vh;
+        height: 45vh;
+        min-height: 300px;
     }
 }
 
 @media (max-width: 768px) {
     .container {
         padding: 1rem;
+        height: calc(100vh - 100px);
+    }
+
+    .left-panel {
+        height: 45vh;
+        min-height: 350px;
     }
 
     .game-actions {
@@ -346,6 +382,11 @@ body {
     }
 
     .iframe-container {
-        height: 60vh;
+        height: 50vh;
+        min-height: 300px;
+    }
+
+    .games-grid {
+        grid-template-columns: 1fr;
     }
 }

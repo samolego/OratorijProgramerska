@@ -170,20 +170,20 @@ generate_site() {
 
 watch_files() {
     log_info "Starting file watcher for hot reload..."
-    
+
     while true; do
         # Počakaj 2 sekundi
         sleep 2
-        
+
         # Preveri spremembe v source datotekah
         local needs_rebuild=false
-        
+
         for file in "$SCRIPT_DIR/index.html" "$SCRIPT_DIR/main.js" "$SCRIPT_DIR/styles.css"; do
             if [ -f "$file" ]; then
                 # Pridobi čas spremembe datoteke
                 local file_time=$(stat -c %Y "$file" 2>/dev/null || stat -f %m "$file" 2>/dev/null)
                 local cache_file="$OUTPUT_DIR/.cache_$(basename "$file")"
-                
+
                 if [ -f "$cache_file" ]; then
                     local cached_time=$(cat "$cache_file")
                     if [ "$file_time" != "$cached_time" ]; then
@@ -196,14 +196,14 @@ watch_files() {
                 fi
             fi
         done
-        
+
         # Preveri tudi igre v igre/ direktoriju
         if [ -d "$IGRE_DIR" ]; then
             for game_file in "$IGRE_DIR"/*/*.html; do
                 if [ -f "$game_file" ]; then
                     local file_time=$(stat -c %Y "$game_file" 2>/dev/null || stat -f %m "$game_file" 2>/dev/null)
                     local cache_file="$OUTPUT_DIR/.cache_$(basename "$game_file")"
-                    
+
                     if [ -f "$cache_file" ]; then
                         local cached_time=$(cat "$cache_file")
                         if [ "$file_time" != "$cached_time" ]; then
@@ -217,7 +217,7 @@ watch_files() {
                 fi
             done
         fi
-        
+
         if [ "$needs_rebuild" = true ]; then
             log_info "Rebuilding zaradi sprememb..."
             generate_site
@@ -249,25 +249,19 @@ run_dev_server() {
     local server_cmd=""
     local port=${1:-8080}
 
-    if command -v npx &> /dev/null && npx http-server --help &> /dev/null; then
-        server_cmd="npx http-server -p $port -c-1 --cors --silent"
-        log_success "Using npm http-server (best for development - no caching, CORS enabled)"
-    elif command -v python3 &> /dev/null; then
+
+    if command -v python3 &> /dev/null; then
         server_cmd="python3 -m http.server $port"
         log_info "Using Python 3 http.server"
-        log_warn "Tip: Install npm http-server for better development experience: npm install -g http-server"
-    elif command -v python &> /dev/null; then
-        server_cmd="python -m SimpleHTTPServer $port"
-        log_info "Using Python 2 SimpleHTTPServer"
-        log_warn "Tip: Install npm http-server for better development experience: npm install -g http-server"
+    elif command -v npx &> /dev/null && npx http-server --help &> /dev/null; then
+        server_cmd="npx http-server -p $port -c-1 --cors --silent"
+        log_success "Using npm http-server (best for development - no caching, CORS enabled)"
     elif command -v php &> /dev/null; then
         server_cmd="php -S localhost:$port"
         log_info "Using PHP built-in server"
-        log_warn "Tip: Install npm http-server for better development experience: npm install -g http-server"
     elif command -v ruby &> /dev/null; then
         server_cmd="ruby -run -e httpd . -p $port"
         log_info "Using Ruby built-in server"
-        log_warn "Tip: Install npm http-server for better development experience: npm install -g http-server"
     else
         log_error "No suitable HTTP server found."
         log_info "Install options:"
