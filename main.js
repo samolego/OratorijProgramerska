@@ -34,16 +34,17 @@ function displayGames(year) {
     .map(
       (game) => `
     <div class="game-card">
-        <div class="game-title">${game.name}</div>
+        <div class="game-title">
+          <a href="${game.path}" target="_blank">
+            ${game.name}
+          </a>
+        </div>
         <div class="game-actions">
             <button class="btn btn-secondary" onclick="playInIframe('${game.path}', '${game.name}')">
                 📺 Igraj
             </button>
             <a href="${game.path}" download="${game.name}.html" class="btn btn-tertiary">
-                💾 Shrani na računalnik
-            </a>
-            <a href="${game.path}" target="_blank">
-                Odpri v novem zavihku
+                💾 Prenesi
             </a>
         </div>
     </div>
@@ -126,28 +127,28 @@ function updateUrlParams(year, game) {
 
   if (year !== null) {
     if (year) {
-      url.searchParams.set('year', year);
+      url.searchParams.set("year", year);
     } else {
-      url.searchParams.delete('year');
+      url.searchParams.delete("year");
     }
   }
 
   if (game !== null) {
     if (game) {
-      url.searchParams.set('game', game);
+      url.searchParams.set("game", game);
     } else {
-      url.searchParams.delete('game');
+      url.searchParams.delete("game");
     }
   }
 
-  window.history.replaceState({}, '', url);
+  window.history.replaceState({}, "", url);
 }
 
 function getUrlParams() {
   const urlParams = new URLSearchParams(window.location.search);
   return {
-    year: urlParams.get('year'),
-    game: urlParams.get('game')
+    year: urlParams.get("year"),
+    game: urlParams.get("game"),
   };
 }
 
@@ -161,7 +162,7 @@ function restoreFromUrl() {
 
     if (params.game) {
       const games = GAMES_DATA[params.year];
-      const selectedGame = games.find(game => game.name === params.game);
+      const selectedGame = games.find((game) => game.name === params.game);
       if (selectedGame) {
         setTimeout(() => {
           playInIframe(selectedGame.path, selectedGame.name);
