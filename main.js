@@ -18,22 +18,30 @@ function displayGames(year) {
   const gamesGrid = document.getElementById("gamesGrid");
 
   if (!year || !GAMES_DATA[year]) {
-    gamesGrid.innerHTML =
-      '<div class="no-games">Ni najdenih iger za to leto</div>';
+    gamesGrid.innerHTML = `
+      <div class="no-games">
+        <div class="no-games-icon">🎮</div>
+        <div class="no-games-text">Ni najdenih iger za to leto</div>
+        <div class="no-games-subtext">Poskusi z drugim letom</div>
+      </div>`;
     return;
   }
 
   const games = GAMES_DATA[year];
   if (games.length === 0) {
-    gamesGrid.innerHTML =
-      '<div class="no-games">Ni najdenih iger za to leto</div>';
+    gamesGrid.innerHTML = `
+      <div class="no-games">
+        <div class="no-games-icon">🎮</div>
+        <div class="no-games-text">Ni najdenih iger za to leto</div>
+        <div class="no-games-subtext">Poskusi z drugim letom</div>
+      </div>`;
     return;
   }
 
   gamesGrid.innerHTML = games
     .map(
       (game) => `
-    <div class="game-card">
+    <div class="game-card" onclick="playInIframe('${game.path}', '${game.name}')">
         <div class="game-title">
           <a href="${game.path}" target="_blank">
             ${game.name}
@@ -167,6 +175,18 @@ function restoreFromUrl() {
         setTimeout(() => {
           playInIframe(selectedGame.path, selectedGame.name);
         }, 100);
+      }
+    }
+  } else {
+    // If no URL params, let the default current year selection work
+    const currentYear = new Date().getFullYear().toString();
+    const years = Object.keys(GAMES_DATA).sort((a, b) => b - a);
+    if (years.includes(currentYear)) {
+      const yearSelect = document.getElementById("yearSelect");
+      if (!yearSelect.value) {
+        yearSelect.value = currentYear;
+        displayGames(currentYear);
+        updateUrlParams(currentYear, null);
       }
     }
   }

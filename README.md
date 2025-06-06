@@ -1,4 +1,4 @@
-# Oratorij Programerska - Zbirka Iger
+# Programerska delavnica na oratoriju - Zbirka iger
 
 Preprosta statična spletna stran za gostovanje in igranje HTML iger, zgrajena z minimalnimi orodji in zasnovana za letne posodobitve brez upravljanja odvisnosti.
 
@@ -6,11 +6,11 @@ Preprosta statična spletna stran za gostovanje in igranje HTML iger, zgrajena z
 
 - **Organizacija iger po letih** - Igre so organizirane po letih v mapah
 - **Trije načini igranja** za vsako igro:
-  - 🚀 Igraj v novem zavihku
-  - 📺 Igraj v vdelani okvir
+  - 📺 Igraj na strani
   - 💾 Prenesi datoteko igre
+  - 🚀 Igraj v novem zavihku
 - **Odziven dizajn** - Deluje na namiznih in mobilnih napravah
-- **Avtomatična objava** - GitHub Actions avtomatsko gradi in objavlja
+- **Avtomatična objava** - GitHub Actions avtomatsko gradi in posodablja stran ob vsaki spremembi
 
 ## 📁 Struktura Projekta
 
@@ -36,13 +36,14 @@ Preprosta statična spletna stran za gostovanje in igranje HTML iger, zgrajena z
    ```bash
    mkdir -p igre/2025
    ```
+2. Ustvari novo HTML igro ali pa pretvori obstoječo Scratch igro v HTML datoteko s pomočjo orodja [TurboWarp](https://packager.turbowarp.org/).
 
 2. Dodaj datoteke HTML iger v mapo leta:
    ```bash
    cp moja-super-igra.html igre/2025/
    ```
 
-3. Potrdi in potisni - stran se bo avtomatično ponovno zgradila in objavila!
+3. Potrdi spremembe - stran se bo avtomatično ponovno zgradila in objavila!
 
 ### Lokalni Razvoj
 
@@ -85,81 +86,17 @@ const GAMES_DATA = {
 };
 ```
 
-## 📦 Objava
-
-### GitHub Pages (Priporočeno)
-
-Projekt vključuje GitHub Actions workflow, ki:
-
-1. **Se sproži** ob potiskih v main/master vejo, ko se spremenijo igre ali datoteke predlog
-2. **Zgradi** statično stran z uporabo shell skripta
-3. **Objavi** na GitHub Pages avtomatično
-
-Za omogočitev:
-1. Pojdi v nastavitve svojega repozitorija
-2. Navigiraj do razdelka Pages
-3. Nastavi vir na "GitHub Actions"
-4. Potisni spremembe za sprožitev objave
-
-### Ročna Objava
-
-
-Generiraj stran in naloži mapo `dist/` na katero koli statično gostovalno storitev:
-
-```bash
-./build.sh generate
-# Naloži vsebino mape dist/ na svojega ponudnika gostovanja
-```
-
-## 🎯 Zahteve za Igre
-
-Igre morajo biti samostojne HTML datoteke, ki lahko delujejo neodvisno. Lahko vključujejo:
-- Vdelan CSS in JavaScript
-- Base64-kodirane resurse
-- Zunanje CDN vire (z internetno povezavo)
-
-## 🛠️ Prilagajanje
-
-### Oblikovanje
-Uredi CSS v `index.html` za prilagoditev videza.
-
-### Funkcionalnost
-Spremeni JavaScript v `index.html` za dodajanje novih funkcij.
-
-### Proces Gradnje
-Posodobi `build.sh` za spreminjanje načina obdelovanja ali organiziranja iger.
-
-## 🔍 Odpravljanje Težav
-
-### Težave s Skriptom za Gradnjo
-- Prepričaj se, da je skript izvršljiv: `chmod +x build.sh`
-- Preveri, da so datoteke iger pravilno poimenovane s `.html` končnico
-- Preveri, da mape let vsebujejo samo številska imena
-
-### Težave z GitHub Actions
-- Preveri zavihek Actions v svojem repozitoriju za dnevnike gradnje
-- Prepričaj se, da je GitHub Pages omogočen v nastavitvah repozitorija
-- Preveri, da ima workflow potrebna dovoljenja
-
-### Težave z Lokalnim Strežnikom
-Skript poskuša več možnosti strežnika:
-- Python 3: `python3 -m http.server`
-- Python 2: `python -m SimpleHTTPServer`
-- PHP: `php -S localhost:8080`
-- Ruby: `ruby -run -e httpd`
-
-Namesti katerega koli od teh za zagon razvojnega strežnika.
-
 ## 📝 Licenca
 
-Ta projekt je namenjen izobraževalni uporabi. Igre in vsebina lahko imajo svoje licence.
+Ta projekt je licenciran z licenco [MIT](./LICENSE.md).
+Igre imajo lahko svoje oz. druge licence.
 
 ## 🤝 Prispevanje
 
 1. Dodaj svoje igre v ustrezno mapo leta
 2. Testiraj lokalno z `./build.sh run`
-3. Potrdi in potisni - avtomatična objava bo uredila ostalo!
+3. Potrdi in objavi spremembe - avtomatična objava bo uredila ostalo!
 
 ---
 
-*Zgrajeno z ❤️ za preprosto, vzdržljivo spletno gostovanje*
+*Zgrajeno z ❤️ za oratorij*

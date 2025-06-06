@@ -165,7 +165,7 @@ generate_site() {
 
     log_success "Site generated successfully!"
     log_info "Output directory: $OUTPUT_DIR"
-    log_info "Main file: $OUTPUT_FILE"
+    log_info "Main file: $HTML_FILE"
 }
 
 watch_files() {
@@ -277,12 +277,7 @@ run_dev_server() {
     log_info "Press Ctrl+C to stop the server"
 
     cd "$OUTPUT_DIR"
-    # Preusmeri output v /dev/null za čisti izpis (razen za npm http-server ki ima --silent)
-    if [[ "$server_cmd" == *"npx http-server"* ]]; then
-        $server_cmd
-    else
-        $server_cmd > /dev/null 2>&1
-    fi
+    $server_cmd > /dev/null 2>&1
 }
 
 # Main script logic
