@@ -249,13 +249,13 @@ run_dev_server() {
     local port=8080
 
     if command -v python3 &> /dev/null; then
-        server_cmd="python3 -m http.server $port 2>/dev/null"
+        server_cmd="python3 -m http.server $port"
     elif command -v python &> /dev/null; then
-        server_cmd="python -m SimpleHTTPServer $port 2>/dev/null"
+        server_cmd="python -m SimpleHTTPServer $port"
     elif command -v php &> /dev/null; then
-        server_cmd="php -S localhost:$port 2>/dev/null"
+        server_cmd="php -S localhost:$port"
     elif command -v ruby &> /dev/null; then
-        server_cmd="ruby -run -e httpd . -p $port 2>/dev/null"
+        server_cmd="ruby -run -e httpd . -p $port"
     else
         log_error "No suitable HTTP server found. Please install Python, PHP, or Ruby."
         log_info "Alternatively, serve the files from: $OUTPUT_DIR"
@@ -268,7 +268,8 @@ run_dev_server() {
     log_info "Press Ctrl+C to stop the server"
 
     cd "$OUTPUT_DIR"
-    $server_cmd
+    # Preusmeri output v /dev/null za čisti izpis
+    $server_cmd > /dev/null 2>&1
 }
 
 # Main script logic

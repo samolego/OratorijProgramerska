@@ -36,14 +36,14 @@ function displayGames(year) {
     <div class="game-card">
         <div class="game-title">${game.name}</div>
         <div class="game-actions">
-            <a href="${game.path}" target="_blank" class="btn btn-primary">
-                🚀 Odpri v novem zavihku
-            </a>
             <button class="btn btn-secondary" onclick="playInIframe('${game.path}', '${game.name}')">
-                📺 Igraj v okvirju
+                📺 Igraj
             </button>
             <a href="${game.path}" download="${game.name}.html" class="btn btn-tertiary">
                 💾 Prenesi
+            </a>
+            <a href="${game.path}" target="_blank" class="btn btn-primary">
+                🚀 Odpri v novem zavihku
             </a>
         </div>
     </div>
@@ -127,33 +127,34 @@ populateYearSelector();
 // Hot reload funkcionalnost samo za lokalni razvoj
 function initHotReload() {
   // Preveri če teče na lokalnem hostu
-  const isLocalDevelopment = window.location.hostname === 'localhost' || 
-                            window.location.hostname === '127.0.0.1' || 
-                            window.location.hostname === '0.0.0.0';
-  
+  const isLocalDevelopment =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1" ||
+    window.location.hostname === "0.0.0.0";
+
   if (!isLocalDevelopment) {
-    console.log('🚀 Production mode - hot reload disabled');
+    console.log("🚀 Production mode - hot reload disabled");
     return;
   }
-  
-  console.log('🔄 Development mode - hot reload enabled');
-  
+
+  console.log("🔄 Development mode - hot reload enabled");
+
   let lastTimestamp = null;
-  
+
   // Preveri spremembe vsakih 1000ms
   setInterval(async () => {
     try {
-      const response = await fetch('/build-timestamp.txt?' + Date.now());
+      const response = await fetch("/build-timestamp.txt?" + Date.now());
       if (response.ok) {
         const timestamp = await response.text();
-        
+
         if (lastTimestamp === null) {
           lastTimestamp = timestamp;
           return;
         }
-        
+
         if (timestamp !== lastTimestamp) {
-          console.log('🔄 Spremembe zaznane, reload strani...');
+          console.log("🔄 Spremembe zaznane, reload strani...");
           window.location.reload();
         }
       }
@@ -164,4 +165,4 @@ function initHotReload() {
 }
 
 // Inicializiraj hot reload ko je DOM pripravljen
-document.addEventListener('DOMContentLoaded', initHotReload);
+document.addEventListener("DOMContentLoaded", initHotReload);
