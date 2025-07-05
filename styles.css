@@ -62,7 +62,6 @@ body {
 }
 
 .container {
-    max-width: 1400px;
     margin: 0 auto;
     padding: 2rem;
     display: flex;
@@ -86,9 +85,8 @@ body {
 
 .controls {
     background: rgba(255, 255, 255, 0.9);
-    padding: 2rem;
+    padding: 1rem;
     border-radius: 12px;
-    margin-bottom: 2rem;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
@@ -158,9 +156,8 @@ body {
     gap: 1.5rem;
     overflow-y: auto;
     flex: 1;
-    padding: 2rem;
-    padding-right: 1.5rem;
-    justify-content: start;
+    padding: 1rem;
+    justify-content: center;
 }
 
 .game-card {

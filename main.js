@@ -221,7 +221,7 @@ function initHotReload() {
 
   let lastTimestamp = null;
 
-  // Preveri spremembe vsakih 1000ms
+  // Preveri spremembe vsakih 100ms
   setInterval(async () => {
     try {
       const response = await fetch("/build-timestamp.txt?" + Date.now());
@@ -241,7 +241,7 @@ function initHotReload() {
     } catch (error) {
       // Tiho ignoriraj napake (timestamp datoteka morda še ne obstaja)
     }
-  }, 1000);
+  }, 100);
 }
 
 // Inicializiraj hot reload ko je DOM pripravljen
